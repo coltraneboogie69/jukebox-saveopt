@@ -55,30 +55,30 @@ def memory_efficient_quick_gelu(x):
 ACT_FNS = {
     'relu': t.nn.functional.relu,
     'swish': swish,
-    'gelu': gelu,
-    'quick_gelu': memory_efficient_quick_gelu #quick_gelu
+    'gelu': swish,
+    'quick_gelu': swish #quick_gelu
 }
 
 def _move_to_gpu_and_convert_conv_weights_to_fp16(l):
     l.cuda()
     if isinstance(l, Conv1D):
-        l.w.data = l.w.data.half()
+        l.w.data = l.w.data.double()
 
 def _convert_conv_weights_to_fp32(l):
     if isinstance(l, Conv1D):
-        l.w.data = l.w.data.float()
+        l.w.data = l.w.data.double()
 
 def _convert_conv_weights_to_fp16(l):
     if isinstance(l, Conv1D):
-        l.w.data = l.w.data.half()
+        l.w.data = l.w.data.double()
 
 def _convert_embedding_weights_to_fp16(l):
     if isinstance(l, t.nn.Embedding):
-        l.weight.data = l.weight.data.half()
+        l.weight.data = l.weight.data.double()
 
 def _convert_embedding_weights_to_fp32(l):
     if isinstance(l, t.nn.Embedding):
-        l.weight.data = l.weight.data.float()
+        l.weight.data = l.weight.data.double()
 
 class Conv1D(nn.Module):
     def __init__(self, n_in, n_out, zero_out=False, init_scale=1.0):
