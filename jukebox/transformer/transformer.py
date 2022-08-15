@@ -101,9 +101,7 @@ class Transformer(nn.Module):
         self.n_ctx = n_ctx
         self.encoder_dims = encoder_dims
         self.blocks = blocks
-        if blocks is not None:
-            assert n_ctx % blocks == 0
-            self.block_ctx = n_ctx // blocks
+        self.block_ctx = n_ctx // blocks
         self.prime_len = prime_len
         self.n_head = n_head
         self.device = device
