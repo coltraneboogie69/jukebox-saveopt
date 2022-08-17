@@ -171,7 +171,8 @@ class ConditionalAutoregressive2D(nn.Module):
 
             loss = (prime_loss, gen_loss) # Note order! Prime is first
         else:
-            loss = F.cross_entropy(x.view(-1, self.bins), x_t.view(-1)) / np.log(2.)  # Loss
+            loss = l = dmll(x, x_t.view(N, D, 1, self.bins))  / np.log(2.) 
+            # loss = F.cross_entropy(x.view(-1, self.bins), x_t.view(-1)) / np.log(2.)  # Loss
 
         if get_preds:
             return loss, x
@@ -238,7 +239,7 @@ class ConditionalAutoregressive2D(nn.Module):
                 # Adjust logits
                 x = x / temp
                 x = filter_logits(x, top_k=top_k, top_p=top_p)
-                x = select_token(x, prob_func)
+                x = sample_mol(x, self.bins) # Sample and replace x
                 assert x.shape == (n_samples, 1)
                 xs.append(x.clone())
 
@@ -348,7 +349,7 @@ class ConditionalAutoregressive2D(nn.Module):
                 # Adjust logits
                 x = x / temp
                 x = filter_logits(x, top_k=top_k, top_p=top_p)
-                x = select_token(x, prob_func)
+                x = sample_mol(x, self.bins) # Sample and replace x
                 assert x.shape == (n_samples, 1)
                 xs.append(x.clone())
 
@@ -425,8 +426,3 @@ if __name__ == '__main__':
     ]
     for test_case in test_cases:
         test_prior(*test_case)
-
-def select_token(x, func):
-    if func != None:
-        x = func(x)
-    return t.distributions.Categorical(logits=x).sample() # Sample and replace x
