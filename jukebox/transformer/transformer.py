@@ -16,7 +16,7 @@ def _convert_mlp_traced(l):
 
 def _convert_mlp_traced_fp16(l):
     if isinstance(l, ResAttnBlock):
-        l.mlp = t.jit.trace(l.mlp, t.randn(1, 1, l.n_in).cuda().half())
+        l.mlp = t.jit.trace(l.mlp, t.randn(1, 1, l.n_in).cuda().double())
 
 class MLP(nn.Module):
     def __init__(self, n_in, n_state, resid_dropout=0.0, afn='quick_gelu', zero_out=False, init_scale=1.0):
@@ -190,7 +190,7 @@ class Transformer(nn.Module):
 
     def forward(self, x, encoder_kv=None, sample=False, fp16=False, fp16_out=False):
         if fp16:
-            x = x.half()
+            x = x.double()
 
         # Blocks
         for i,l in enumerate(self._attn_mods):
