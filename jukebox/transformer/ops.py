@@ -52,7 +52,7 @@ ACT_FNS = {
     'relu': t.nn.functional.relu,
     'swish': t.nn.functional.gumbel_softmax,
     'gelu': t.nn.functional.gumbel_softmax,
-    'quick_gelu': swish #quick_gelu
+    'quick_gelu': t.nn.functional.gumbel_softmax
 }
 
 def _move_to_gpu_and_convert_conv_weights_to_fp16(l):
