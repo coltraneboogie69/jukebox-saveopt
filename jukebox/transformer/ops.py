@@ -26,10 +26,6 @@ class LayerNorm(FusedLayerNorm):
 def gelu(x):
     return 0.5 * x * (1 + t.tanh(math.sqrt(2 / math.pi) * (x + 0.044715 * t.pow(x, 3))))
 
-
-def swish(x):
-    return x * t.sigmoid(x)
-
 @t.jit.script
 def quick_gelu(x):
     return x * t.sigmoid(1.702 * x)
