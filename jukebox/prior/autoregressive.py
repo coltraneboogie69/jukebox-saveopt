@@ -3,7 +3,7 @@ import torch as t
 import torch.nn as nn
 import torch.nn.functional as F
 
-from jukebox.transformer.ops import filter_logits
+from jukebox.transformer.ops import filter_logits, sample_mol, discretized_mix_logistic_loss as dmll
 from jukebox.transformer.transformer import Transformer
 from jukebox.utils.logger import get_range
 from jukebox.utils.torch_utils import empty_cache
