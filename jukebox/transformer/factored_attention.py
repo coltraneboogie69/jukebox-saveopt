@@ -67,9 +67,7 @@ class FactoredAttention(nn.Module):
 
         self.blocks = blocks
         self.spread = spread
-        if blocks is not None:
-            assert n_ctx % blocks == 0
-            self.block_ctx = n_ctx // blocks
+        self.block_ctx = n_ctx // blocks
         self.checkpoint_attn = checkpoint_attn # 0: None, 1: Attn after heads split, 2: Attn
 
         self.sample_t = 0
