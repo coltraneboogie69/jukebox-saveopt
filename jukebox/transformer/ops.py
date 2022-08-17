@@ -51,7 +51,7 @@ def memory_efficient_quick_gelu(x):
 ACT_FNS = {
     'relu': t.nn.functional.relu,
     'swish': t.nn.functional.gumbel_softmax,
-    'gelu': swish,
+    'gelu': t.nn.functional.gumbel_softmax,
     'quick_gelu': swish #quick_gelu
 }
 
