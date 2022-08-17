@@ -169,7 +169,7 @@ prior_1b_lyrics = Hyperparams(
     prior_depth=72,
     heads=2,
     attn_order=12,
-    blocks=1024,
+    blocks=64,
     init_scale=0.2,
     c_res=1,
     labels_v3=True,
@@ -180,7 +180,7 @@ prior_1b_lyrics = Hyperparams(
     prime_loss_fraction=0.4,
     single_enc_dec=True,
     restore_prior=REMOTE_PREFIX + 'jukebox/models/1b_lyrics/prior_level_2.pth.tar',
-    fp16_params=False,
+    fp16_params=True,
     alignment_layer=63,
     alignment_head=0,
 )
